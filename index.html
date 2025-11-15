@@ -16,7 +16,7 @@
         overflow-y: auto;
         scroll-behavior: smooth;
     }
- 
+
     h1 {
         margin-top: 100px;
         font-size: 42px;
@@ -73,15 +73,16 @@
 </head>
 <body>
 
-<!-- 🔊 Background Music -->
-<audio id="bgm" autoplay loop>
-   <source src="https://github.com/ruchithabs128-pixel/birthday-ranjith/blob/9f6dc90585f48a63732c822afee49584a3187952/birthday.mp3" type="audio/mpeg">
+<!-- 🔊 MUSIC -->
+<audio id="bgm" loop>
+  <source src="https://raw.githubusercontent.com/ruchithabs128-pixel/birthday-ranjith/main/birthday.mp3" type="audio/mpeg">
 </audio>
 
 <h1>🎉 Happy Birthday, Ranjith! 🎉</h1>
 <button class="btn" onclick="showMessage()">Celebrate Now!</button>
 
 <div id="msg" class="message"></div>
+
 <canvas id="sparkCanvas"></canvas>
 
 <script>
@@ -104,13 +105,17 @@ May you step into a new year stronger, wiser, and happier.☺️
 May all your goals, dreams, and aspirations come true.`;
 
 function showMessage() {
+    document.getElementById("bgm").play();  // 🔊 PLAY MUSIC
+
     const msgBox = document.getElementById("msg");
     msgBox.innerText = combinedMessage;
     msgBox.style.display = "block";
     msgBox.scrollIntoView({ behavior: "smooth", block: "start" });
+
     startSparkle();
 }
 
+/* ✨ Sparkle / Firework Effect */
 function startSparkle() {
     const canvas = document.getElementById('sparkCanvas');
     const ctx = canvas.getContext('2d');
@@ -122,7 +127,8 @@ function startSparkle() {
 
     function createParticle(x, y) {
         const p = {
-            x: x, y: y,
+            x: x,
+            y: y,
             vx: (Math.random() - 0.5) * 6,
             vy: (Math.random() - 1.5) * 6,
             size: Math.random() * 4 + 2,
@@ -142,7 +148,6 @@ function startSparkle() {
             p.x += p.vx;
             p.y += p.vy;
             p.alpha -= p.decay;
-
             if(p.alpha <= 0){
                 particles.splice(i,1);
                 i--;
@@ -153,16 +158,14 @@ function startSparkle() {
             ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
             ctx.fill();
         }
+
         requestAnimationFrame(animate);
     }
 
     function hexToRgb(hex) {
         hex = hex.replace('#','');
         const bigint = parseInt(hex,16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-        return r+','+g+','+b;
+        return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255].join(',');
     }
 
     const interval = setInterval(() => {
